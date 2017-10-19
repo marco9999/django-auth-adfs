@@ -150,7 +150,7 @@ class AdfsBackend(ModelBackend):
         elif whitelisted and not blacklisted:
             return True
         else:
-            return True if settings.ALLOW_BY_DEFAULT else False
+            return settings.ALLOW_BY_DEFAULT
 
     def is_groups_allowed(self, payload):
         blacklisted = False
@@ -166,7 +166,7 @@ class AdfsBackend(ModelBackend):
         elif whitelisted and not blacklisted:
             return True
         else:
-            return True if settings.ALLOW_BY_DEFAULT else False
+            return settings.ALLOW_BY_DEFAULT
 
     def authenticate(self, authorization_code=None):
         # If there's no token or code, we pass control to the next authentication backend
