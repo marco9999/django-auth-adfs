@@ -135,6 +135,39 @@ class AdfsBackend(ModelBackend):
         """
         cls._public_keys = []
 
+    def is_users_allowed(self, payload):
+        blacklisted = False
+        whitelisted = False
+
+        for group in payload[settings.GROUP_CLAIM]:
+            if group in settings.GROUPS_BLACKLIST:
+                blacklisted = True
+            if group in settings.GROUPS_WHITELIST:
+                whitelisted = True
+
+        if blacklisted and not whitelisted:
+            return False
+        elif whitelisted and not blacklisted:
+            return True
+        else:
+            return True if settings.DENY_BY_DEFAULT else False
+
+    def is_groups_allowed(self, payload):
+        blacklisted = False
+        whitelisted = False
+
+        if payload[settings.USERNAME_CLAIM] in settings.USERS_BLACKLIST:
+            blacklisted = True
+        if payload[settings.USERNAME_CLAIM] in settings.USERS_WHITELIST:
+            whitelisted = True
+
+        if blacklisted and not whitelisted:
+            return False
+        elif whitelisted and not blacklisted:
+            return True
+        else:
+            return True if settings.DENY_BY_DEFAULT else False
+
     def authenticate(self, authorization_code=None):
         # If there's no token or code, we pass control to the next authentication backend
         if authorization_code is None or authorization_code == '':
@@ -219,6 +252,10 @@ class AdfsBackend(ModelBackend):
             raise PermissionDenied
 
         logger.debug("JWT payload:\n"+pformat(payload))
+
+        # Check if user/groups are blacklisted.
+        if not self.is_groups_allowed(payload) or not self.is_users_allowed(payload):
+            raise PermissionDenied
 
         # Create the user
         username_claim = settings.USERNAME_CLAIM

@@ -260,3 +260,54 @@ If the user doesn't exist yet, this field will be used as it's username.
 .. NOTE::
    You can find the short name for the claims you configure in the ADFS management console underneath
    **ADFS** ➜ **Service** ➜ **Claim Descriptions**
+
+DENY_BY_DEFAULT
+---------------
+Default: ``False``
+
+If a user is not blacklisted or whitelisted, this is the default authentication behavior.
+
+The same behavior is also used when a user is both whitelisted and blacklisted.
+
+django_auth_adfs tries to authenticate in the order of groups then by users.
+
+.. IMPORTANT::
+   See configuration properties ``GROUPS_WHITELIST``, ``USERS_WHITELIST``, ``GROUPS_BLACKLIST`` and ``USERS_BLACKLIST``,
+   for controlling the whitelist and blacklist.
+
+GROUPS_WHITELIST
+----------------
+Default: ``[]``
+
+A list of group names that are allowed to be authenticated.
+
+.. NOTE::
+   See the configuration for ``DENY_BY_DEFAULT`` for information about combining with the groups blacklist.
+
+USERS_WHITELIST
+---------------
+Default: ``[]``
+
+A list of user names that are allowed to be authenticated.
+
+.. NOTE::
+   See the configuration for ``DENY_BY_DEFAULT`` for information about combining with the users blacklist.
+
+GROUPS_BLACKLIST
+----------------
+Default: ``[]``
+
+A list of group names that are NOT allowed to be authenticated.
+
+.. NOTE::
+   See the configuration for ``DENY_BY_DEFAULT`` for information about combining with the groups whitelist.
+
+USERS_BLACKLIST
+---------------
+Default: ``[]``
+
+A list of user names that are NOT allowed to be authenticated.
+
+.. NOTE::
+   See the configuration for ``DENY_BY_DEFAULT`` for information about combining with the users whitelist.
+

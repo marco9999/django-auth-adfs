@@ -22,6 +22,11 @@ class Settings(object):
         self.CLAIM_MAPPING = {}
         self.BOOLEAN_CLAIM_MAPPING = {}
         self.LOGIN_EXEMPT_URLS = []
+        self.DENY_BY_DEFAULT = False
+        self.GROUPS_WHITELIST = []
+        self.USERS_WHITELIST = []
+        self.GROUPS_BLACKLIST = []
+        self.USERS_BLACKLIST = []
 
         required_settings = [
             "SERVER",
