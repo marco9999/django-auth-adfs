@@ -261,9 +261,9 @@ If the user doesn't exist yet, this field will be used as it's username.
    You can find the short name for the claims you configure in the ADFS management console underneath
    **ADFS** ➜ **Service** ➜ **Claim Descriptions**
 
-DENY_BY_DEFAULT
+ALLOW_BY_DEFAULT
 ---------------
-Default: ``False``
+Default: ``True``
 
 If a user is not blacklisted or whitelisted, this is the default authentication behavior.
 
