@@ -254,11 +254,15 @@ class AdfsBackend(ModelBackend):
         logger.debug("JWT payload:\n"+pformat(payload))
 
         # Check if user/groups are blacklisted.
-        if not (self.is_groups_allowed(payload) and self.is_users_allowed(payload)):
-            raise PermissionDenied
+        username_claim = settings.USERNAME_CLAIM
+        if not self.is_users_allowed(payload):
+            logger.debug(f"User allow check for {payload[username_claim]} didn't pass")
+            if not self.is_groups_allowed(payload):
+                logger.debug(f"Group allow check for {payload[username_claim]} didn't pass")
+                raise PermissionDenied
+        logger.debug(f"User {payload[username_claim]} passed user and/or group check")
 
         # Create the user
-        username_claim = settings.USERNAME_CLAIM
         usermodel = get_user_model()
         user, created = usermodel.objects.get_or_create(**{
             usermodel.USERNAME_FIELD: payload[username_claim]
