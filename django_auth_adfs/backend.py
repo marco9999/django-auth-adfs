@@ -135,7 +135,7 @@ class AdfsBackend(ModelBackend):
         """
         cls._public_keys = []
 
-    def is_users_allowed(self, payload):
+    def is_groups_allowed(self, payload):
         blacklisted = False
         whitelisted = False
 
@@ -152,7 +152,7 @@ class AdfsBackend(ModelBackend):
         else:
             return settings.ALLOW_BY_DEFAULT
 
-    def is_groups_allowed(self, payload):
+    def is_users_allowed(self, payload):
         blacklisted = False
         whitelisted = False
 
