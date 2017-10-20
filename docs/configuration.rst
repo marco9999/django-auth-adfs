@@ -269,7 +269,8 @@ If a user is not blacklisted or whitelisted, this is the default authentication 
 
 The same behavior is also used when a user is both whitelisted and blacklisted.
 
-django_auth_adfs tries to authenticate in the order of groups then by users.
+django_auth_adfs tries to authenticate in the priority of users then by groups.
+This means the groups white/blacklist is only checked if the user white/blacklist check fails.
 
 .. IMPORTANT::
    See configuration properties ``GROUPS_WHITELIST``, ``USERS_WHITELIST``, ``GROUPS_BLACKLIST`` and ``USERS_BLACKLIST``,
