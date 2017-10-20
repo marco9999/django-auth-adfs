@@ -254,7 +254,7 @@ class AdfsBackend(ModelBackend):
         logger.debug("JWT payload:\n"+pformat(payload))
 
         # Check if user/groups are blacklisted.
-        if not (self.is_groups_allowed(payload) or self.is_users_allowed(payload)):
+        if not (self.is_groups_allowed(payload) and self.is_users_allowed(payload)):
             raise PermissionDenied
 
         # Create the user
